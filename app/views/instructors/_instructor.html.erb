@@ -1,0 +1,19 @@
+<%= link_to instructor_path(instructor) do %>
+  <div class="teacher col-md-4 col-sm-6 col-xs-12 col-lg-4 btn btn-default">
+    <%=  (image_tag instructor.avatar_url(:index), width: AvatarUploader::THUMBW, height: AvatarUploader::THUMBH)  %>
+    <h4>
+      <%=  instructor.teacher.name.titleize %>
+    </h4>
+    <p class="text-info">
+	    <% if instructor.country_of_origin.length >= 4 %>
+				From: <%= instructor.country_of_origin %> <br>
+				<% else %>
+				From: <%= instructor.country_name %> <br>
+			<% end %>
+      Teaches: <%= instructor.subject_to_teach %> <br>
+      Education level: <%= instructor.education %> <br>
+      $<%= instructor.price %>
+      <%= instructor.price_currency %>
+    </p>
+  </div>
+<%end %>

@@ -1,0 +1,30 @@
+<form action="/instructors" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
+	<p>
+		<select name="subject_to_teach" id="subject_to_teach">
+		  <option value="" style="display:none">-- Search by Language: --</option>
+			<option value="">All Languages</option>
+		  <option value="English">English</option>
+			<option value="Chinese">Chinese</option>
+			<option value="French">French</option>
+			<option value="German">German</option>
+			<option value="Spanish">Spanish</option>
+			<option value="Portugese">Portuguese</option>
+			<option value="Japanese">Japanese</option>
+			<option value="Russian">Russian</option>
+			<option value="French">French</option>
+			<option value="French">Arabic</option>
+		</select>
+	  <input type="submit" value="Search">
+	</p>
+</form>
+
+<!-- A Ruby version of the same code. Couldn't get it to display an empty value -->
+
+<%= form_tag instructors_path, :method => 'get' do %>
+	<p>
+		<%= select_tag(:subject_to_teach, options_for_select(["-- Search by Language: --", "English", "Chinese", "French", "German", "Arabic", "Spanish", "Portugese", "Japanese", "Russian", "French"], disabled: "-- Search by Language: --")) %>
+	  <%= submit_tag "Search", :name => nil %>
+	</p>
+<% end %>
+
+

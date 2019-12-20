@@ -1,0 +1,76 @@
+
+<div id="slider">
+	<!-- <div class="col-sm-10 col-sm-offset-1"> -->
+	<div>
+		<div id="landing-carousel" class="carousel slide" data-ride="carousel">
+		  <!-- Indicators -->
+		  <ol class="carousel-indicators">
+		    <li data-target="#landing-carousel" data-slide-to="0" class="active"></li>
+		    <li data-target="#landing-carousel" data-slide-to="1"></li>
+		    <li data-target="#landing-carousel" data-slide-to="2"></li>
+		    <li data-target="#landing-carousel" data-slide-to="3"></li>
+		  </ol>
+		  <!-- Wrapper for slides -->
+		  <div class="carousel-inner" role="listbox">
+		    <div class="item active">
+		      <img id="paris-wide"class="img-responsive slider-wide" width="100%" alt="Paris" src="<%= asset_path('paris550.jpg') %>">
+		      <img id="paris-tall"class="img-responsive slider-tall" width="100%" alt="Paris" src="<%= asset_path('paris.jpg') %>">
+			      <div class="carousel-caption middle">
+				      <div class="slider-text">
+				        <h1>Welcome to Teachme!</h1>
+								<p class="lead">Learn what you want, from who, and for how much, and - most importantly - from wherever.</p>	    
+						  </div>
+			      </div>
+		    </div>
+
+		    <div class="item">
+			    <img id="wet_street-wide"class="img-responsive slider-wide" width="100%" alt="wet_street" src="<%= asset_path('wet_street550.jpg') %>">
+		      <img id="wet_street-tall"class="img-responsive slider-tall" width="100%" alt="wet_street" src="<%= asset_path('wet_street.jpg') %>">
+			    	<div class="carousel-caption middle">
+				    	<div class="slider-text">
+				    		<h1>You're in Good Hands!</h1>
+				    		<p class="lead">Our teachers are screened by us to verify their identity and qualifications.</p>
+				    	</div>
+		    		  <p><a class="btn btn-primary btn-lg" href="/instructors" role="button">See our Teachers</a></p>
+			    	</div>
+		    </div>
+
+		    <div class="item">
+			    <img id="temple-wide"class="img-responsive slider-wide" width="100%" alt="temple" src="<%= asset_path('temple550.jpg') %>">
+		      <img id="temple-tall"class="img-responsive slider-tall" width="100%" alt="temple" src="<%= asset_path('temple.jpg') %>">
+			    	<div class="carousel-caption middle">
+				    	<div class="slider-text">
+				    		<h1>Sign Up!</h1>
+				    		<p class="lead">It's Super Easy&trade; and we made the forms nice and pretty</p>
+				    	</div>
+			    		<p><a class="btn btn-primary btn-lg" href="/users/new" role="button">Sign Up</a></p>
+			    	</div>
+		    </div>
+
+		    <div class="item">
+			    <img id="night_street_life-wide"class="img-responsive slider-wide" width="100%" alt="night_street_life" src="<%= asset_path('night_street_life550.jpg') %>">
+		      <img id="night_street_life-tall"class="img-responsive slider-tall" width="100%" alt="night_street_life" src="<%= asset_path('night_street_life.jpg') %>">
+		  
+		    	<div class="carousel-caption middle">
+				    	<div class="slider-text">
+				    		<h1>Curious?</h1>
+				    		<p class="lead">Want to know more about the Teachme story?</p>
+				    	</div>
+				    	<p><a class="btn btn-primary btn-lg" href="/about" role="button">Click Here!</a></p>
+				    </div>
+		    	</div>
+		  </div>
+
+		  <!-- Controls -->
+		  <a class="left carousel-control" href="#landing-carousel" role="button" data-slide="prev">
+		    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+		    <span class="sr-only">Previous</span>
+		  </a>
+		  <a class="right carousel-control" href="#landing-carousel" role="button" data-slide="next">
+		    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+		    <span class="sr-only">Next</span>
+		  </a>
+		</div><!-- carousel -->
+	</div> <!-- column -->
+</div> <!-- container -->
+

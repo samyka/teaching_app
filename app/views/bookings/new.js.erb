@@ -1,0 +1,3 @@
+// where is this id? can I use this to render the form under the row in the timeslot
+$(".add_booking_link").hide();
+$("#booking_add_<%= @timeslot.id %>").prepend('<%= j render("form") %>')

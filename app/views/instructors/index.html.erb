@@ -1,0 +1,52 @@
+<div class="row">
+	<div class="col-sm-10 col-sm-offset-1">
+		<div class="page-header">
+			<h1>What would you like to learn? &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<%= link_to "See Our Teachers", instructors_path, {:class => "btn btn-primary btn-lg", :id => 'all-teachers-button', remote: true, :onclick => 'autoScrollTo("display-teachers")'} %> 
+			</h1> 
+		</div>
+	</div>
+</div>
+
+<br>
+
+<div id="language-images">
+
+	<div class="col-sm-6 col-md-4">
+		<%= link_to image_tag("english.jpg", :width =>"100%", :alt => "english"), instructors_path(:subject_to_teach => "English"), {:class => "img-responsive lang-img", remote: true, :onclick => 'autoScrollTo("display-teachers")', :alt => "Responsive image"}  %>
+	</div>
+	<div class="col-sm-6 col-md-4">
+			<%= link_to image_tag("french.jpg", :width =>"100%", :alt => "french"), instructors_path(:subject_to_teach => "French"), {:class => "img-responsive lang-img", remote: true, :onclick => 'autoScrollTo("display-teachers")', :alt => "Responsive image"}  %>
+	</div>
+	<div class="col-sm-6 col-md-4">
+			<%= link_to image_tag("german.jpg", :width =>"100%", :alt => "german"), instructors_path(:subject_to_teach => "German"), {:class => "img-responsive lang-img", remote: true, :onclick => 'autoScrollTo("display-teachers")', :alt => "Responsive image"} %>
+	</div>
+
+	<div class="col-sm-6 col-md-4">
+			<%= link_to image_tag("chinese.jpg", :width =>"100%", :alt => "chinese"), instructors_path(:subject_to_teach => "Chinese"), {:class => "img-responsive lang-img", remote: true, :onclick => 'autoScrollTo("display-teachers")', :alt => "Responsive image"}  %>
+	</div>
+	<div class="col-sm-6 col-md-4">
+			<%= link_to image_tag("arabic.jpg", :width =>"100%", :alt => "arabic"), instructors_path(:subject_to_teach => "Arabic"), {:class => "img-responsive lang-img", remote: true, :onclick => 'autoScrollTo("display-teachers")', :alt => "Responsive image"}  %>
+	</div>
+	<div class="col-sm-6 col-md-4">
+			<%= link_to image_tag("spanish.jpg", :width =>"100%", :alt => "spanish"), instructors_path(:subject_to_teach => "Spanish"), {:class => "img-responsive lang-img", remote: true, :onclick => 'autoScrollTo("display-teachers")', :alt => "Responsive image"}  %>
+	</div>
+
+	<div class="col-sm-6 col-md-4">
+			<%= link_to image_tag("japanese.jpg", :width =>"100%", :alt => "japanese"), instructors_path(:subject_to_teach => "Japanese"), {:class => "img-responsive lang-img", remote: true, :onclick => 'autoScrollTo("display-teachers")', :alt => "Responsive image"}  %>
+	</div>
+	<div class="col-sm-6 col-md-4">
+			<%= link_to image_tag("russian.jpg", :width =>"100%", :alt => "russian"), instructors_path(:subject_to_teach => "Russian"), {:class => "img-responsive lang-img", remote: true, :onclick => 'autoScrollTo("display-teachers")', :alt => "Responsive image"}  %>
+	</div>
+	<div class="col-sm-6 col-md-4">
+			<%= link_to image_tag("portuguese.jpg", :width =>"100%", :alt => "portuguese"), instructors_path(:subject_to_teach => "Portuguese"), {:class => "img-responsive lang-img", remote: true, :onclick => 'autoScrollTo("display-teachers")', :alt => "Responsive image"}  %>
+	</div>
+</div>
+
+<div id="display-teachers">
+	<div class="row">
+		<div class="col-sm-10 col-sm-offset-1">
+			<%= render @instructors %>
+		</div>
+	</div>
+</div>

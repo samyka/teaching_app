@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  timeslot: one
+  start_time: 2015-03-12 12:15:00
+  end_time: 2015-03-12 12:45:00
+  description: Teach me plz
+
+two:
+  timeslot: one
+  start_time: 2015-03-12 13:30:00
+  end_time: 2015-03-12 14:00:00
+  description: I like to learn

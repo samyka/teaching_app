@@ -1,0 +1,40 @@
+	<div class="row">
+		<div id="timeslots">
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+				  <h3 class="panel-title"> Current Bookings: </h3>
+				</div>
+				<div class="panel-body">
+					<table class="table table-striped">
+			      <thead>
+			        <tr>
+				        <!-- <th>#</th> -->
+			          <th>Instructor's Name</th>
+			          <th>Subject</th>
+			          <th>Start Time</th>
+			          <th>End Time</th>
+			        </tr>
+			      </thead>
+			      <tbody>
+				      <% if @user.bookings %>
+							  <% @user.bookings.each do |booking| %>
+							    <div id="booking_<%= booking.id %>">
+									  <!-- @user.bookings.all do method booking.start_time and then order based on the earlier start time. -->
+						        <tr>
+						          <!-- <th scope="row"># </th> -->
+						          <td><%= booking.timeslot.instructor.teacher.name %></td>
+						          <td><%= booking.timeslot.instructor.subject_to_teach %></td>
+						          <td><%= booking.start_time %></td>
+						          <td><%= booking.end_time %></td>
+						        </tr>
+									</div> 
+								  <% end %>
+							  <% else %>
+								 <i>You don't have any bookings currently</i>
+						  <% end %>
+			      </tbody>
+			    </table>
+				</div> 
+			</div>
+		</div>
+	</div>

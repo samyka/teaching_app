@@ -1,0 +1,39 @@
+<!-- This file is basically redundant except to fulfill a function of rendering the latest timeslot added by an instructor before refresh. See: create.js.erb -->
+
+
+
+<!-- <div id="timeslot_<= timeslot.id %>">
+	<p><= timeslot.start_time.in_time_zone %> to <= timeslot.end_time.in_time_zone %></p>
+  < if @instructor.teacher != current_user %>
+  <div id="booking_add_<=timeslot.id%>">
+    <= link_to new_instructor_timeslot_booking_path(@instructor, timeslot), class: 'add_booking_link btn btn-success btn-sm', remote: true do %>
+    		<i class="glyphicon glyphicon-plus"> </i>Book this Timeslot!
+	< end %>
+  </div>
+		< end %>
+
+</div>   
+ -->
+<!-- 
+b.start_time.in_time_zone(b.student.city_time_zone) -->
+
+<i class="text-info">Timeslot Added!</i> <br>
+
+<!-- <div id="timeslot_<= timeslot.id %>"> -->
+	<!-- <tr id="timeslot_<= timeslot.id %>"> IF I put this on a tr it works-->
+<!-- 
+		<td><= timeslot.start_time.in_time_zone %></td>
+		<td><= timeslot.end_time.in_time_zone %></td>
+		<td>
+		  < if current_user && @instructor.teacher != current_user %>
+			  <div id="booking_add_<=timeslot.id%>">
+			    <= link_to new_instructor_timeslot_booking_path(@instructor, timeslot), class: 'add_booking_link btn btn-success btn-sm', remote: true do %>
+			    		<span class="glyphicon glyphicon-plus"></span> Book this Time! 
+					< end %>
+			  </div>
+			  < else %>
+					<button type="button" class="btn btn-sm btn-success" disabled="disabled"><span class="glyphicon glyphicon-plus"></span> Book this Time!</button>
+			< end %>
+		</td> -->
+
+<!-- </div>    -->

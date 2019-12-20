@@ -1,0 +1,137 @@
+				<div class="col-sm-10 col-sm-offset-1">
+					<div class="row">
+						<div class="page-header">
+							<h1><%=@instructor.teacher.first_name.capitalize%>'s Classroom</h1>
+						</div>	
+					</div>
+
+ <% if current_user %>
+ 	<% if current_user.instructor %>
+	 	<% if current_user.instructor == @instructor %>
+			
+					<div class="row">
+						<div class="col-md-8">
+							<div class="panel panel-info">
+								<div class="panel-heading">Remote video</div>
+							  <div class="panel-body">
+									<div id="remoteVideos"></div>
+							  </div>
+							</div>
+						</div>
+
+						<div class="col-sm-4">
+							<div class="panel panel-success">
+								<div class="panel-heading">Local video</div>
+							  <div class="panel-body">
+									<video id="localVideo"></video>
+							  </div>
+							</div>
+						</div>
+						
+						<script>
+							var webrtc = new SimpleWebRTC({
+						    // the id/element dom element that will hold "our" video
+						    localVideoEl: 'localVideo',
+						    // the id/element dom element that will hold remote videos
+						    remoteVideosEl: 'remoteVideos',
+						    // immediately ask for camera access
+						    autoRequestMedia: true
+						});
+							// we have to wait until it's ready
+						webrtc.on('readyToCall', function () {
+						    // you can name it anything
+						    webrtc.joinRoom('my class');
+						});
+						</script>
+					</div>
+
+					<div class="row">
+						<i class="text-info">You may need to enable this page to use your camera and mic. Look in the address bar.</i> 
+
+							<!-- <i class="text-info">Some browsers don't support browser chat. If this is the case for you, please contact your instructor on skype</i>
+
+							<a class="btn btn-info btn-xs" href=<="skype: #{@instructor.skype}?chat"%> role="button"><span class="glyphicon glyphicon-phone-alt"> </span>&nbsp;&nbsp;Open a Skype Call</a> -->
+					</div>
+				</div>
+		<!-- < else %> -->
+		<!-- <p> You are not the instructor of this classroom.</p> -->
+		<% end %>
+		<!-- < else %> -->
+		<!-- <p>You do not have a booking with this instructor.</p> -->
+		<% end %>
+		<!-- < else %> -->
+		<!-- <p>You are not signed in.</p> -->
+		<% end %>
+
+
+
+<% if current_user %>
+	<% if current_user.bookings %>
+		<% b = current_user.bookings.where('(start_time <= ? AND end_time >= ?) OR (start_time <= ? AND end_time >= ?)' , Time.zone.now + 15.minutes, Time.zone.now, Time.zone.now, Time.zone.now).take if current_user.bookings.where('(start_time <= ? AND end_time >= ?) OR (start_time <= ? AND end_time >= ?)' , Time.zone.now + 15.minutes, Time.zone.now, Time.zone.now, Time.zone.now) %>
+			<% if b %>
+				<% if b.timeslot.instructor == @instructor %>
+				<!-- 	<div class="col-sm-10 col-sm-offset-1">
+						<div class="row">
+							<div class="page-header">
+								<h1>My Classroom</h1>
+							</div>	
+						</div> -->
+							
+							
+								<div class="row">
+
+									<div class="col-md-8">
+										<div class="panel panel-info">
+											<div class="panel-heading">Remote video</div>
+										  <div class="panel-body">
+												<div id="remoteVideos"></div>
+										  </div>
+										</div>
+									</div>
+
+									<div class="col-sm-4">
+										<div class="panel panel-success">
+											<div class="panel-heading">Local video</div>
+										  <div class="panel-body">
+												<video id="localVideo"></video>
+										  </div>
+										</div>
+									</div>
+									
+									<script>
+										var webrtc = new SimpleWebRTC({
+									    // the id/element dom element that will hold "our" video
+									    localVideoEl: 'localVideo',
+									    // the id/element dom element that will hold remote videos
+									    remoteVideosEl: 'remoteVideos',
+									    // immediately ask for camera access
+									    autoRequestMedia: true
+									});
+										// we have to wait until it's ready
+									webrtc.on('readyToCall', function () {
+									    // you can name it anything
+									    webrtc.joinRoom('my class');
+									});
+									</script>
+								</div>
+
+								<div class="row">
+									<i class="text-info">You may need to enable this page to use your camera and mic. Look in the address bar.</i> 
+
+										<i class="text-info">Some browsers don't support browser chat. If this is the case for you, please contact your instructor on skype:</i>
+
+										<a class="btn btn-info btn-xs" href=<%="skype:#{@instructor.skype}?chat"%> role="button"><span class="glyphicon glyphicon-phone-alt"> </span>&nbsp;&nbsp;Open a Skype Call</a>
+								</div>
+							</div>
+							<!-- < else %> -->
+								<!-- <i>your booking is not with this instructor</i> -->
+							<% end %>
+			<!-- < else %> -->
+				<!-- <p> your booking is not at this time</p> -->
+			<% end %>
+		<!-- < else %> -->
+		<!-- <p>you don't have a booking</p> -->
+	<% end %>
+	<!-- < else %> -->
+	<!-- <p>you're not signed in.</p> -->
+<% end %>

@@ -1,0 +1,96 @@
+<% if current_user %>
+	<% booking_approaching = current_user.bookings.any? do |booking|%>
+	 <% Time.zone.now >= booking.start_time-15.minutes && Time.zone.now <= booking.end_time+10.minutes %>
+	<% end %>
+<% end %>
+
+<% if current_user && current_user.instructor != nil %>
+ <% teaching_approaching = current_user.instructor.bookings.any? do |booking|%>
+	 <% Time.zone.now >= booking.start_time-15.minutes && Time.zone.now <= booking.end_time+10.minutes %>
+ <% end %>
+<% end %>
+
+<nav id="navbar3000" class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+
+    <!-- Brand and toggle get grouped for better mobile display -->
+
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/instructors" class="pull-left"><img id="logo" src="<%= asset_path('logo.jpg') %>"></a>
+      <%= link_to "Teachme", instructors_path, class: "navbar-brand" %>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+				<% if current_user %>
+					<% if current_user.bookings %>
+						<% b = current_user.bookings.where('(start_time <= ? AND end_time >= ?) OR (start_time <= ? AND end_time >= ?)' , Time.zone.now + 15.minutes, Time.zone.now, Time.zone.now, Time.zone.now).take if current_user.bookings.where('(start_time <= ? AND end_time >= ?) OR (start_time <= ? AND end_time >= ?)' , Time.zone.now + 15.minutes, Time.zone.now, Time.zone.now, Time.zone.now) %>
+							<% if b %>
+								<li><%= link_to "You Have a Class!", classroom_instructor_path(b.timeslot.instructor.id)%></li>
+							<% end %>
+					<% end %> 
+				<% end %>
+				 <% if current_user %>
+					<li><%= link_to "Instructors", instructors_path %></li>
+	        <li class="dropdown">
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><%="Signed in as: #{current_user.first_name.capitalize}"%><span class="caret"></span></a>
+	          <ul class="dropdown-menu" role="menu">
+		          <li class="dropdown-header">Student links</li>
+	            <li><%= link_to "Your User Profile", user_path(current_user) %></li>
+	            <li><%= link_to "Edit User Profile", edit_user_url(current_user)%></li>
+	            <% if current_user.instructor %>
+								<li class="divider"></li>
+		            <li class="dropdown-header">Teacher links</li>
+					      <li><%= link_to "#{current_user.first_name.capitalize}'s Teacher Profile", instructor_path(current_user.instructor.id) %></li>
+					      <li><%= link_to "Edit Teacher Profile", edit_instructor_url(current_user.instructor.id) %></li>
+
+					      <li><%= link_to "My Classroom",classroom_instructor_path(current_user.instructor.id)%></li>
+						  <% end %>
+	            <li class="divider"></li>
+	            <li><%= link_to "Logout", session_path("current"), :method => :delete %></li>
+	          </ul>
+	        </li>
+        <% end %>
+				<% if !current_user %>
+				 <li><%= link_to "Login", new_session_path %></li>
+				<% end %>
+				<% if !current_user %>
+				 <li><%= link_to "Sign up", new_user_path %></li>
+				<% end %>
+				<li><%= link_to "About", about_path %> </li>
+			  <li><%= link_to "Contact", contact_path %> </li>
+				<% if current_user && !current_user.instructor %>
+				  <li><%= link_to 'Wanna Teach?', new_instructor_path %></li>
+			  <% end %>
+	      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<div id="bookingModal" class="modal fade">
+ <div class="modal-dialog modal-lg">
+	 <div class="modal-content">
+		 <div class="modal-header">
+			 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+				 <h4 id="modalTitle" class="modal-title"></h4>
+		 </div>
+		 <div id="modalBody" class="modal-body">
+			 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+			 <div class="pure-u-1-5">
+				 <div id="l-video"></div>
+			 </div>
+			 <div class="pure-u-4-5" id="r-video"></div>
+			 <script src="https://cdn.jsdelivr.net/rtc/latest/rtc.min.js"></script>
+		 </div>
+		 <div class="modal-footer">
+			 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		 </div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,148 @@
+<%= form_for @instructor, :html => {:multipart => true, class: 'form-horizontal'} do |f| %>
+
+<div class="row">
+	<div class="col-sm-9 col-sm-offset-1">
+	
+		<!-- display avatar if the user already has one. for the edit page -->
+		<div class="row">
+			<div class="col-sm-4 col-sm-offset-3">
+			  <div class="media">
+				  <div class="media-left">
+					  <% if @instructor.avatar? %> <br>
+					  <%= image_tag(@instructor.avatar_url(:thumb), class: 'img-responsive img-thumbnail')%>
+						<p><i>Your current image</i></p> <br>
+					<%end %>
+				  </div>
+			  </div>
+			</div>
+		</div>
+<!-- upload avatar -->
+	  <div class="form-group"> 
+	  	<%= f.label :avatar, "Upload a Profile Picture: ", class: 'col-sm-3 control-label' %>
+	  	<div class="col-sm-4">
+		  	<span class="btn btn-success btn-lg btn-block btn-file">
+			    Upload! <%= f.file_field :avatar %>
+				</span> 
+		    <%= f.hidden_field :avatar_cache %> 
+	  	</div>
+	  </div>
+	  
+<!-- upload cv/resume -->
+  <div class="form-group">
+  	<%= f.label :document, "Upload your CV or Resume (doc or pdf):", class: 'col-sm-3 control-label' %> 
+  	<div class="col-sm-4">
+			<span class="btn btn-success btn-lg btn-block btn-file">
+				Choose a File <%= f.file_field :document %> 
+			</span>
+			<% if !@instructor.document.blank? %> <br>
+				<i> <%="You've uploaded a resume already. You can update it to another if you want"%></i>
+			<% end %>
+	  	<%= f.hidden_field :document_cache %> 
+  	</div>
+  </div> 
+
+<!-- country select -->
+	  <div class="form-group">
+	    <%= f.label :country_of_origin, "*Country of Origin: ", class: 'col-sm-3 control-label' %>
+	    <div class="col-sm-9">
+		    <%= f.country_select :country_of_origin, nil, {prompt: "Select a Country"}, {:class => 'form-control'} %>
+	    </div>
+	  </div>
+<!-- first language -->
+	  <div class="form-group">
+	    <%= f.label :first_language, "*First Language:", class: 'col-sm-3 control-label' %>
+	    <div class="col-sm-9">
+		    <%= f.text_field :first_language, class: 'form-control', placeholder: 'First Language' %>
+	    </div>
+	  </div>
+	   <div class="form-group">
+	    <%= f.label :skype, "Skype:", class: 'col-sm-3 control-label' %>
+	    <div class="col-sm-9">
+		    <%= f.text_field :skype, class: 'form-control', placeholder: 'Your Skype Username' %>
+	    </div>
+	  </div>
+<!-- subject to teach -->
+	  <div class="form-group">
+			<%= f.label :subject_to_teach, "*Subject to Teach:", class: 'col-sm-3 control-label' %> 
+			<div class="col-sm-9">
+				<%= f.select(:subject_to_teach, options_for_select(["English", "Chinese", "Arabic", "French", "German", "Spanish", "Portuguese", "Japanese"]), {prompt: "Select a Language"
+},{:class => 'form-control'}) %>
+			</div>
+		</div>
+<!-- education. radio buttons.-->
+	  <div class="form-group">
+	  	<%= f.label :education, "*Education: ", class: 'col-sm-3 control-label'%>
+
+	  	<div class="col-sm-offset-1 col-sm-4">
+		   	<div class="radio">
+			   	<label>
+					<!-- <= f.label(:education_high_school, "High School") %> -->
+				    <%= f.radio_button(:education, "High School") %>
+				    High School
+			   	</label>
+		   	</div>
+
+		   	<div class="radio">
+					<!-- <= f.label(:education_bachelors, "Bachelor Degree") %> -->
+					<label>
+						<%= f.radio_button(:education, "Bachelor Degree") %> Bachelor Degree
+					</label>
+		   	</div>
+
+		   	<div class="radio">
+					<!-- <= f.label(:education_masters, "Master Degree") %> -->
+					<label>
+						<%= f.radio_button(:education, "Master Degree") %> Master Degree
+					</label>
+		   	</div>
+			</div> 
+			<div class="col-sm-4">
+					<div class="radio">
+						<!-- <= f.label(:education_phd, "PhD") %> -->
+						<label>
+							<%= f.radio_button(:education, "PhD") %> PhD
+						</label>
+					</div>
+					<div class="radio">
+						<!-- <= f.label(:education_phd, "PhD") %> -->
+						<label>
+							<%= f.radio_button(:education, "Other") %> Other
+						</label>
+					</div>
+				</div>
+    	</div>
+<!-- payment per hour. (need to fix the field so it doesn't render a '$' by default) -->
+<form class="form-inline">
+	  <div class="form-group">
+	  	<%= f.label :price_string, '*Hourly Rate (in USD)', class: "col-sm-3 control-label" %>
+	  	<div class="col-sm-9">
+	  		<div class="input-group">
+	  			<div class="input-group-addon">$</div>
+		  	<%= f.text_field :price_string, class: 'form-control', placeholder: 'Amount in USD' %>
+	  		</div>
+	  	</div>
+	  </div>
+<!-- About me -->
+	  <div class="form-group">
+	  	<%= f.label :about, "*About me: ", class: 'col-sm-3 control-label' %>
+	  	<div class="col-sm-9">
+		  	<%= f.text_area :about, class: 'form-control', rows: 6 %>
+		  	<span class="help-block">You might write a little about your educational background, your teaching experience and what you feel your particular strengths are in teaching.</span>
+	  	</div>
+	  </div> 
+
+		<div class="form-group">
+			<div class="col-sm-3 control-label"><p> <i> * Indicates a required field.</i></p></div>
+		</div>
+<!-- submit button -->
+	  <div class="form-group">
+		  <div class="col-sm-offset-3 col-sm-9">
+			  <button type="submit" name="commit" class="btn btn-lg btn-primary btn-block">Save it!</button>
+		    <!-- <= f.submit %> -->
+		  </div>
+	  </div>  
+
+  </div> <!-- overall column wrapping -->
+
+</div> <!-- row -->
+<% end %>

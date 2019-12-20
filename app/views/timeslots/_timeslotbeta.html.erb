@@ -1,0 +1,53 @@
+<div class="panel panel-warning">
+	<div class="panel-heading">
+		<h3 class="panel-title">Available Timeslots</h3>
+	</div>
+	<div id="timeslot_panel_body" class="panel-body">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Start Time</th>
+					<th>End Time</th>
+					<th>Book</th>
+				</tr>
+			</thead>
+			<tbody>
+			<% if @instructor.teacher == current_user %>
+				<%= link_to new_instructor_timeslot_path(@instructor), id:'add_availability_link', remote: true, class: 'btn btn-info btn-xs' do %>
+					<span class="glyphicon glyphicon-plus"></span> Add New Timeslot <br>
+				<% end %>
+			<% end %>
+					<% @instructor.timeslots.each do |timeslot| %>
+						<div id="timeslot_<%= timeslot.id %>">
+							<!-- <tr id="timeslot_<= timeslot.id %>"> IF I put this on a tr it works-->
+							<tr id="timeslot-tabel-body">
+								<td><%= timeslot.start_time.in_time_zone %></td>
+								<td><%= timeslot.end_time.in_time_zone %></td>
+								<td>
+								  <% if current_user && @instructor.teacher != current_user %>
+									  <div id="booking_add_<%=timeslot.id%>">
+									    <%= link_to new_instructor_timeslot_booking_path(@instructor, timeslot), class: 'add_booking_link btn btn-success btn-sm', remote: true do %>
+									    		<span class="glyphicon glyphicon-ok-sign"></span> Book this Time! 
+											<% end %>
+									  </div>
+									  <% else %>
+											<button type="button" class="btn btn-sm btn-success" disabled="disabled"><span class="glyphicon glyphicon-ok-sign"></span> Book this Time!</button>
+									<% end %>
+								</td>
+							</tr>
+						</div>   
+					<% end %>
+			</tbody>
+		</table>
+		<% if @instructor.timeslots.blank? %>
+			<i class="text-info">The teacher hasn't added any timeslots yet.</i>
+		<% end %>
+	</div> <!-- panel-body -->
+	<% if !current_user %>
+		<div class="panel-footer">
+			<i>Please <%= link_to "Login", new_session_path %> or <%= link_to "Sign-up", new_user_path%> to book a time with this teacher.</i>
+		</div>
+	<% end %>
+</div> <!-- panel -->
+
+

@@ -1,0 +1,272 @@
+<% if current_user %>
+	<% booking_approaching = current_user.bookings.any? do |booking|%>
+	 <% Time.zone.now >= booking.start_time-15.minutes && Time.zone.now <= booking.end_time+10.minutes %>
+	<% end %>
+<% end %>
+
+<% if current_user && current_user.instructor != nil %>
+ <% teaching_approaching = current_user.instructor.bookings.any? do |booking|%>
+	 <% Time.zone.now >= booking.start_time-15.minutes && Time.zone.now <= booking.end_time+10.minutes %>
+ <% end %>
+<% end %>
+
+<!-- teacher's name header -->
+<div class="row">
+	<div class="col-sm-10 col-sm-offset-1">
+			<div class="page-header">
+				<p id="t-name-head"><%= @instructor.teacher.joined_fields :first_name, :last_name %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<!-- s< if booking_approaching || teaching_approaching %>
+				<= link_to instructor_lesson_path(@instructor), class: "btn btn-warning btn-lg" do %>
+				<span class="glyphicon glyphicon-pencil"> </span> Go to your lesson!
+				< end %>
+				< end %>d -->
+			
+	 <!-- <button id ='render_video' type="button" class="btn btn-warning" data-toggle="modal" data-target="#bookingModal">Click to Start Your Lesson!</button>
+
+	 <script>	
+
+		 $('#render_video').click(function(){
+				RTC();
+		 });
+
+		 $('#bookingModal').modal({
+			 backdrop: 'static',
+			 keyboard: false,
+		 });
+
+	 </script> -->
+</p>
+			</div>
+	</div>
+</div>
+
+<!-- teacher's info panel -->
+<div class="row">
+	<div class="col-sm-10 col-sm-offset-1">	
+		<div class="teacher-fields panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title"><%= @instructor.teacher.first_name.capitalize%>'s info &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<% if @instructor.teacher == current_user %>
+				<%= link_to edit_instructor_url(@instructor), class: 'btn btn-info btn-xs' do %>
+				<span class="glyphicon glyphicon-pencil"> </span> Edit Your Profile
+				<% end %>
+			<% end %></h3>
+			</div>
+			<div class="panel-body">
+				<div class="col-sm-6 col-xs-offset-2 col-sm-offset-0">
+					<dl class="dl-horizontal">
+						<dt>From:</dt>
+						<% if @instructor.country_of_origin.length >= 4 %>
+							<dd> <%= @instructor.country_of_origin %> </dd> 
+						<%else %>
+							<dd><%= @instructor.country_name %></dd>
+						<% end %>
+						<dt>First Language:</dt>
+						<dd><%= @instructor.first_language.capitalize %></dd>
+						<dt><%= @instructor.teacher.first_name.capitalize%> Teaches:</dt>
+						<dd><%= @instructor.subject_to_teach %></dd>
+						<dt>Education Level:</dt>
+						<dd><%= @instructor.education %></dd>
+						<dt>Time Zone:</dt>
+						<dd><%= @instructor.teacher.city_time_zone %></dd>
+						<dt>Price/Teaching Hour:</dt>
+						<dd><%= "#{@instructor.price.format} #{@instructor.price.currency}"%></dd>
+						<% if @instructor.document.blank? == true %>
+							<dt><%="#{@instructor.teacher.first_name.capitalize}'s Resume:" %></dt>
+							<dd><i class="text-info"><%= "#{@instructor.teacher.first_name.capitalize} hasn't uploaded a resume yet."%></i></dd>
+						<% end %>
+					</dl>
+
+					<% if @instructor.document.blank? == false %>
+						<div class="resume-button col-sm-offset-1">
+							<%= link_to @instructor.document_url, class: 'btn btn-primary btn-xs' do %>
+							<span class="glyphicon glyphicon-download-alt"></span> Download Resume
+							<% end %>
+						</div> <!-- resume button -->
+						<br>
+					<% end %>
+				</div> <!-- col-sm-6 -->
+				<div class="avatar col-sm-5 col-sm-offset-1 col-xs-offset-2">
+					<%= image_tag @instructor.avatar_url(:thumb), class: "img-circle" %>
+				</div>
+			</div> <!-- panel body -->
+		</div> <!-- panel -->
+	</div>
+</div> <!-- row -->
+
+<div class="row">
+<!-- about teacher panel -->
+	<div class="col-sm-10 col-sm-offset-1">
+		<div class="about-teacher">
+			<div class="teacher-fields panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">About <%= @instructor.teacher.first_name.capitalize%>:</h3>
+				</div>
+				<div class="panel-body">
+					<p class=" text-primary"><%= @instructor.about%></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Timeslot chart -->
+	<!-- <div class="col-sm-5">
+		<div id="timeslots">
+			<= render 'timeslots/timeslotbeta' %>
+		</div>
+	</div> -->
+</div>
+
+<!-- Teacher's Bookings Calendar -->
+<div class="row">
+	<div class="col-sm-10 col-sm-offset-1">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title"><%= @instructor.teacher.first_name.capitalize%>'s Calendar:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<% if @instructor.teacher == current_user %>
+				<button id='add_availability_link' class='btn btn-success btn-xs'> <span class="glyphicon glyphicon-plus"></span> Add New Timeslot </button>
+					 <br>
+			<% end %></h3>
+			</div>
+			<div class="panel-body">
+				<% if @instructor.timeslots.blank? %>
+					<i class="text-info">The teacher hasn't added any timeslots yet.</i>
+					<br><br>
+				<% end %>
+				<div class='teacher_calendar'>
+					<% timezone = current_user.city_time_zone if current_user.present? %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$('#add_availability_link').click(function(){
+	$('#timeslotModal').modal('show');
+});
+</script>
+
+
+
+<script>
+	$('.teacher_calendar').fullCalendar({
+		
+		select: function( start, end, jsEvent, view ) {
+			console.log(start, end);
+		},
+		header: {
+			left: 'prev, next',
+			center:'title',
+			right: 'today,month,agendaWeek,agendaDay'
+		},
+
+
+// this is where I can change the color/style of the Calendar.		
+
+// 6cf62c
+		eventSources: [
+			{
+				url: '/instructors/<%= @instructor.id %>/timeslots',
+				backgroundColor: '#71C671',
+				textColor: '#DDF4FF',
+				// rendering: 'background',
+				borderColor: 'black',
+				className: 'instructor_availability'
+			},
+			
+			{
+				url: "/instructors/<%= @instructor.id %>/bookings",
+				textColor: '#000E15',
+				borderColor: 'black',
+				backgroundColor: '#9DD6F2'
+			}
+		],
+
+		defaultView: "agendaWeek",
+		timezone: "<%= timezone %>",
+		displayEventEnd: {
+				month: true,
+				basicWeek: true,
+				"default": true
+		},
+
+		theme: true,
+		views: {
+				month: { 
+						titleFormat: 'YYYY, MM, DD'
+				}
+			},
+
+		eventClick: function(calEvent, jsEvent, view) {
+		 			 	$('#fullCalModal_' + calEvent.id).modal('show');
+			 }
+		});
+</script>
+
+
+<% @timeslots.each do |timeslot| %>
+  <div class="modal fade" id="fullCalModal_<%= timeslot.id %>">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+            <h4 id="modalTitle" class="modal-title">Booking Form</h4>
+        </div>
+
+          <div class="modal-body">
+            <%= form_for([@instructor, timeslot, Booking.new], remote: true) do |f| %>
+              <div class="field">
+                <%= f.label :start_time %>
+                <%= f.datetime_select :start_time, discard_year: true, minute_step: 15, ampm: true %>
+              </div>
+
+              <div class="field">
+                <%= f.label :end_time %>
+                <%= f.datetime_select :end_time, discard_year: true, minute_step: 15, ampm: true %>
+              </div>  
+
+          </div>
+          
+	          <div class="modal-footer form-group">
+	            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	            <button type="submit" name="commit" id='submit_booking' class="btn btn-md btn-primary">Make this Booking!</button>
+	         	</div>
+	        <% end %>
+	      </div>
+	    </div>
+	</div>
+<% end %>
+
+
+<!-- Timeslot modal -->
+<div id="timeslotModal" class="modal fade">
+ <div class="modal-dialog modal-lg">
+	 <div class="modal-content">
+		 <div class="modal-header">
+			 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+				 <h4 id="modalTitle" class="modal-title"></h4>
+		 </div>
+
+		 <div id="modalBody" class="modal-body">
+
+			<%= form_for([@instructor, Timeslot.new], remote: true) do |f| %>
+			 	<div class="field">
+			  <%= f.label :start_time %>
+			  <%= f.datetime_select :start_time, discard_year: true, minute_step: 15, ampm: true %>
+				</div>
+
+				<div class="field">
+				  <%= f.label :end_time %>
+				  <%= f.datetime_select :end_time, discard_year: true, minute_step: 15, ampm: true %>
+				</div>	
+
+		 </div>
+
+	 	  <div class="modal-footer form-group">
+	      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      <button type="submit" name="commit" id='submit_booking' class="btn btn-md btn-primary">Make this Timeslot!</button>
+	    </div>
+    <% end %>
+		</div>
+	</div>
+</div>
+

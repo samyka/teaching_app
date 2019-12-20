@@ -1,0 +1,11 @@
+<% if @timeslot.errors.any? %>
+  <% @timeslot.errors.full_messages.each do |error| %>
+    alert("<%= error %>" );
+  <% end %>
+<% else %>
+
+  $('#timeslot_panel_body').prepend('<%= j render partial: 'timeslots/timeslot', locals: {timeslot: @timeslot} %>');
+  $('#add_availability_link').show();
+  $('.teacher_calendar').fullCalendar('refetchEvents');
+  $('#timeslotModal').modal('hide')
+<% end %>

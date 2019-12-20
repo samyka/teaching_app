@@ -1,0 +1,23 @@
+<%= form_for([@instructor, @timeslot], remote: true, html: {class: 'form-horizontal'}) do |f| %>
+<div class="row">
+	<div class="col-xs-offset-1">
+		<div class="row">
+			<div class="form-group">
+			  <%= f.label :start_time %>
+			  <%= f.datetime_select :start_time, discard_year: true, minute_step: 15, ampm: true %>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group">
+			  <%= f.label :end_time %>
+			  <%= f.datetime_select :end_time, discard_year: true, minute_step: 15, ampm: true %>
+			</div>	
+		</div>
+		<div class="form-group">
+			<button type="submit" name="commit" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;&nbsp;Create Timeslot</button>
+		</div> 
+
+	</div>
+</div>
+
+<% end %>

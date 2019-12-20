@@ -1,0 +1,30 @@
+<div class="row">
+	<div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 ">
+			
+	<%= form_tag sessions_path, :class => 'form-signin' do%>
+		
+		<div class="page-header">
+			<h1>Please log in:</h1>
+		</div>
+
+	  <div class="field">
+	    <%= label_tag :email, nil, :class => "sr-only" %>
+	    <%= text_field_tag :email, nil, :id => "inputEmail", :class => "form-control", :placeholder => "Email address" %>
+	  </div>
+
+	  <div class="field">
+	    <%= label_tag :password, nil, :class => "sr-only" %><br>
+	    <%= password_field_tag :password, nil, :id => "inputPassword", :class => "form-control", :placeholder => "Password" %>
+	  </div><br>
+
+	<!-- This is to add a 'remember me' checkbox via the 'remember me' token -->
+	  <!-- <div class="checkbox">
+	    <label>
+	      <input type="checkbox" value="remember-me"> Remember me
+	    </label>
+	  </div> -->
+	  
+	  <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+	<% end %>
+	</div>
+</div>
